@@ -13,9 +13,11 @@ routes.get('/', (req, res) => {
 });
 
 routes.post('/settings', settingsController.create);
+routes.get('/settings/:username', settingsController.findByUsername);
+routes.post('/settings/:username/update', settingsController.update);
 
 routes.post('/messages', messagesController.create);
-routes.get('/messages/:userId', messagesController.listByUser);
+routes.get('/messages/:username', messagesController.listByUser);
 
 routes.post('/users', usersController.findOrCreate);
 export { routes };
