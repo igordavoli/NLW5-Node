@@ -34,6 +34,17 @@ class ConnectionsService {
       return savedConnection;
     }
   }
+
+  async listOpen() {
+    const query = {
+      where: { adminId: null },
+      relations: ['user'],
+    }
+
+    const openConnections = await this.repository.find(query)
+
+    return openConnections;
+  }
 }
 
 export { ConnectionsService };

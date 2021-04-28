@@ -21,4 +21,24 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
       }
     });
   });
+
+  socket.on('list_messages_client', messages => {
+    const userTemplate = document.getElementById('message-user-template').innerHTML;
+    const adminTemplate = document.getElementById('admin-template').innerHTML;
+    messages.forEach(message => {
+      if (message.adminId) {
+        const rendered = Mustache.render(adminTemplate, {
+          messageAdmin: message.text
+        })
+        document.getElementById('messages').innerHTML += rendered;
+      } else {
+        const rendered = Mustache.render(userTemplate, {
+          message: message.text,
+          email
+        });
+
+        document.getElementById('messages').innerHTML += rendered;
+      }
+    })
+  });
 });

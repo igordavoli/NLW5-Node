@@ -8,8 +8,11 @@ const usersController = new UsersController;
 const messagesController = new MessagesController;
 const routes = Router();
 
-routes.get('/', (req, res) => {
+routes.get('/client', (req, res) => {
   res.status(200).render('html/client.html');
+});
+routes.get('/admin', (req, res) => {
+  res.status(200).render('html/admin.html');
 });
 
 routes.post('/settings', settingsController.create);
