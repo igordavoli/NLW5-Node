@@ -2,12 +2,12 @@ const socket = io();
 let connections = [];
 
 
-socket.on('list_of_open_connections', openConnections => {
+socket.on('list_open_connections', openConnections => {
   connections = openConnections;
 
-  let list = document.getElementById('list_users');
+  let connectionsList = document.getElementById('list_users');
 
-  list.innerHTML = '';
+  connectionsList.innerHTML = '';
 
   const template = document.getElementById('template').innerHTML;
 
@@ -17,7 +17,7 @@ socket.on('list_of_open_connections', openConnections => {
       id: connection.socketId
     });
 
-    list.innerHTML += rendered;
+    connectionsList.innerHTML += rendered;
   })
 });
 
@@ -74,4 +74,41 @@ function sendMessage(id) {
   }
 
   socket.emit('admin_send_message', params);
+
+  const messagesDiv = document.getElementById(`allMessages${id}`);
+
+  const createdDiv = document.createElement('div');
+
+  createdDiv.className = 'admin_message_admin';
+  createdDiv.innerHTML = `Atendente:<span> ${params.text}</spam>`;
+  createdDiv.innerHTML += `<span class="admin_date">${dayjs()
+    .format('DD/MM/YYYY HH:mm:ss')}</spam>`;
+
+  messagesDiv.appendChild(createdDiv);
+
+  messageInput.value = '';
 }
+socket.on('client_message_admin', params => {
+  const { socketId, message } = params;
+  const connection = connections.find(connection => connection.socketId === socketId);
+  const messagesDiv = document
+    .getElementById(`allMessages${connection.userId}`);
+
+  const createdDiv = document.createElement('div');
+  createdDiv.className = 'admin_message_client';
+
+
+  createdDiv.innerHTML = `<span>${connection.user.email}</spam>`
+  createdDiv.innerHTML += `<span>${message.text}</spam>`
+  createdDiv.innerHTML +=
+    `<span class="admin_date">${dayjs(message.createdAt)
+      .format('DD/MM/YYYY HH:mm:ss')}</spam>`
+
+  messagesDiv.appendChild(createdDiv);
+});
+
+
+// function updateScroll(){
+//   var element = document.getElementById("yourDivID");
+//   element.scrollTop = element.scrollHeight;
+// }

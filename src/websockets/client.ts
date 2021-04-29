@@ -24,11 +24,27 @@ io.on('connect', (socket) => {
       socketId,
     });
 
+
     await messagesService.create({ userId, text });
 
     const messages = await messagesService.listByUser(userId);
 
     socket.emit('list_messages_client', messages);
 
+    // const openConnections = await connectionsService.listOpen();
+
+    // socket.emit('list_open_connections', openConnections);
   });
+
+  socket.on('send_message_to_admin', async params => {
+    const { text, socketAdminId } = params;
+    const socketId = socket.id;
+    const { userId } = await connectionsService.findBySocketId(socketId);
+    const message = await messagesService.create({ text, userId });
+    const data = { message, socketId };
+
+    io.to(socketAdminId).emit('client_message_admin', data);
+  });
+
+
 });

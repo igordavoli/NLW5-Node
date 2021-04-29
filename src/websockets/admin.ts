@@ -9,7 +9,7 @@ io.on('connect', async socket => {
 
   const openConnections = await connectionsService.listOpen();
 
-  io.emit('list_of_open_connections', openConnections);
+  io.emit('list_open_connections', openConnections);
 
   socket.on('list_user_messages_to_admin', async ({ userId }, callback) => {
 
@@ -25,7 +25,8 @@ io.on('connect', async socket => {
       userId,
       adminId: socket.id,
     };
-    const message = await messagesService.create(newMessage);
+
+    await messagesService.create(newMessage);
 
     const { socketId } = await connectionsService.findByUserId(userId);
 
