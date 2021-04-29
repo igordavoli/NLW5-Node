@@ -33,4 +33,34 @@ function call(id) {
 
   document.getElementById('supports').innerHTML += rendered;
 
+  const params = { userId: connection.userId }
+
+  socket.emit('list_user_messages_to_admin', params, messages => {
+    const messagesDiv = document
+      .getElementById(`allMessages${connection.userId}`);
+
+    messages.forEach(message => {
+      const createdDiv = document.createElement('div');
+
+      if (message.adminId) {
+        createdDiv.className = 'admin_message_admin';
+
+        createdDiv.innerHTML = `Atendente:<span> ${message.text}</spam>`
+        createdDiv.innerHTML +=
+          `<span class="admin_date">${dayjs(message.createdAt)
+            .format('DD/MM/YYYY HH:mm:ss')}</spam>`
+
+      } else {
+        createdDiv.className = 'admin_message_client';
+
+        createdDiv.innerHTML = `<span>${connection.user.email}</spam>`
+        createdDiv.innerHTML += `<span>${message.text}</spam>`
+        createdDiv.innerHTML +=
+          `<span class="admin_date">${dayjs(message.createdAt)
+            .format('DD/MM/YYYY HH:mm:ss')}</spam>`
+      }
+
+      messagesDiv.appendChild(createdDiv);
+    });
+  });
 }
