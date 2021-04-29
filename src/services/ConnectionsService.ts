@@ -45,6 +45,12 @@ class ConnectionsService {
 
     return openConnections;
   }
+
+  async findByUserId(userId: string) {
+    const connection = await this.repository.findOne({ userId });
+
+    return connection;
+  }
 }
 
 export { ConnectionsService };

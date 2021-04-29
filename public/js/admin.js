@@ -64,3 +64,14 @@ function call(id) {
     });
   });
 }
+
+function sendMessage(id) {
+  const messageInput = document.getElementById(`send_message_${id}`);
+
+  params = {
+    text: messageInput.value,
+    userId: id,
+  }
+
+  socket.emit('admin_send_message', params);
+}

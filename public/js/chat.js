@@ -1,3 +1,5 @@
+
+
 document.querySelector("#start_chat").addEventListener("click", (event) => {
   const socket = io();
 
@@ -41,4 +43,9 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
       }
     })
   });
+
+  socket.on('send_message_to_client', message => {
+    console.log(message)
+  });
 });
+
