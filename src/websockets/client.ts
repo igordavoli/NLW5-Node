@@ -31,9 +31,9 @@ io.on('connect', (socket) => {
 
     socket.emit('list_messages_client', messages);
 
-    // const openConnections = await connectionsService.listOpen();
+    const openConnections = await connectionsService.listOpen();
 
-    // socket.emit('list_open_connections', openConnections);
+    io.emit('list_open_connections', openConnections);
   });
 
   socket.on('send_message_to_admin', async params => {

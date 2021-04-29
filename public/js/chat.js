@@ -59,7 +59,6 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
 
     document.getElementById('messages').innerHTML += rendered
 
-    console.log(message)
   });
 });
 
