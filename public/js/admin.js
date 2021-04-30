@@ -31,9 +31,13 @@ function call(id) {
     id: connection.userId,
   });
 
+
+
   document.getElementById('supports').innerHTML += rendered;
 
   const params = { userId: connection.userId }
+
+  socket.emit('admin_engaged', params);
 
   socket.emit('list_user_messages_to_admin', params, messages => {
     const messagesDiv = document

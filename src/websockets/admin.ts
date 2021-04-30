@@ -18,6 +18,17 @@ io.on('connect', async socket => {
     callback(messages);
   })
 
+  socket.on('admin_engaged', async params => {
+    const { userId } = params;
+    const adminId = socket.id;
+
+    await connectionsService.updateAdminId(userId, adminId);
+
+    const openConnections = await connectionsService.listOpen();
+
+    io.emit('list_open_connections', openConnections);
+  });
+
   socket.on('admin_send_message', async params => {
     const { text, userId } = params;
     const newMessage = {

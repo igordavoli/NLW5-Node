@@ -57,6 +57,12 @@ class ConnectionsService {
     return connection;
   }
 
+  async updateAdminId(userId: string, adminId: string) {
+    const connection = await this.repository.findOne({ userId });
+    connection.adminId = adminId;
+
+    await this.repository.save(connection);
+  }
 }
 
 export { ConnectionsService };
